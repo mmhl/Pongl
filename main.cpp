@@ -21,8 +21,8 @@ static int initGLEW() {
 static int setGLWinContext(SDL_Window *win) {
     int ret;
 
-    ret = SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-    ret |= SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
+    ret = SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
+    ret |= SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 4);
     ret |= SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 
     ret |= SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
