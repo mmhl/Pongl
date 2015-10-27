@@ -64,7 +64,17 @@ int main() {
         glClear(GL_COLOR_BUFFER_BIT);
         SDL_GL_SwapWindow(mainWindow);
 
-        std::this_thread::sleep_for(2s); // No duration literals in Clion, yet
+        bool quitting = false;
+        SDL_Event event;
+        while (SDL_WaitEvent(&event)) {
+                if (event.type == SDL_QUIT) {
+                        cout << "Quitting" << endl;
+                        quitting = true;
+                }
+                if (quitting)
+                        break;
+        }
+
         cout << "Done" << endl;
         SDL_GL_DeleteContext(glContext);
         SDL_DestroyRenderer(renderer);
