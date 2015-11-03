@@ -2,9 +2,34 @@
 #include <SDL.h>
 #include <chrono>
 #include <thread>
+#include <boost/filesystem.hpp>
+#include <boost/filesystem/fstream.hpp>
 #include <GL/glew.h>
+#include <sstream>
 
 using namespace std;
+
+
+GLuint loadShaderFromFile(GLenum type, const std::string &filepath) {
+        using namespace boost::filesystem;
+        GLuint shader = glCreateShader(type);
+        path file(filepath);
+        boost::system::error_code error;
+
+        if (!exists(file, error)) {
+                cerr << "Error: " << error.message() << endl;
+                return 0;
+        }
+        boost::filesystem::ifstream fstream(file);
+        std::stringstream sstr;
+        while (fstream >> sstr.rdbuf()); // Read whole file to sstream
+
+        cout << sstr.str() << endl;
+        const char *str = sstr.str().c_str();
+        glShaderSource(shader, 1, &str, NULL);
+
+        return shader;
+}
 
 static int initGLEW() {
         glewExperimental = GL_TRUE;
@@ -63,6 +88,18 @@ int main() {
         glClearColor(255, 0, 0, 0);
         glClear(GL_COLOR_BUFFER_BIT);
         SDL_GL_SwapWindow(mainWindow);
+
+        GLuint fragmentShader = loadShaderFromFile(GL_FRAGMENT_SHADER, "/home/mhl/Sources/Pongl/shaders/fragment.glsl");
+        if (fragmentShader == 0) {
+                cerr << "Can't load fragment shader" << endl;
+                return -1;
+        }
+
+        GLuint vertexShader = loadShaderFromFile(GL_VERTEX_SHADER, "/home/mhl/Sources/Pongl/shaders/vertex.glsl");
+        if (vertexShader == 0) {
+                cerr << "Can't load vertex shader" << endl;
+                return -1;
+        }
 
         bool quitting = false;
         SDL_Event event;
