@@ -2,7 +2,8 @@
 
 out vec4 outputColor;
 
-void main()
+void main(void)
 {
-    outputColor = vec4(1.0f, 1.0f, 1.0f, 1.0f);
+    outputColor = vec4(1.0, 1.0, 1.0, 0.0);
 }
+
