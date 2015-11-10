@@ -7,6 +7,9 @@
 #include <GL/glew.h>
 #include <sstream>
 
+#include "Game.h"
+
+
 using namespace std;
 
 string getShaderCompilationLog(GLuint shader) {
@@ -117,74 +120,13 @@ int initializeShaders() {
   return 0;
 }
 
-const float vertexPositions[] = {
-    0.75f, 0.75f, 0.0f, 0.0f,
-    0.75f, -0.75f, 0.0f, 0.0f,
-    -0.75f, -0.75f, 0.0f, 0.0f,
-};
-
-GLuint positionBufferObject;
-GLuint vao;
-
-int initGL() {
-  int status = initializeShaders();
-  if (status != 0) {
-    cerr << "Something went wrong with shaders" << endl;
-    return -1;
-  }
-  // initialize vertex buffer
-  glGenBuffers(1, &positionBufferObject);
-  glBindBuffer(GL_ARRAY_BUFFER, positionBufferObject);
-  glBufferData(GL_ARRAY_BUFFER, sizeof(vertexPositions), vertexPositions, GL_STATIC_DRAW);
-  glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-  glGenVertexArrays(1, &vao);
-  glBindVertexArray(vao);
-  return 0;
-}
-
-static int initGLEW() {
-  glewExperimental = GL_TRUE;
-  GLenum res = glewInit();
-  if (res != 0) {
-    cerr << "Unable to initialize GLEW properly" << endl;
-    cerr << "\t" << glewGetErrorString(res);
-    return -1;
-  }
-  return 0;
-
-}
-
-static int setGLWinContext(SDL_Window *win) {
-  int ret;
-  ret = SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
-  ret |= SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 4);
-  ret |= SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
-
-  ret |= SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
-  ret |= SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-  ret |= SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
-  if (ret != 0) {
-    cerr << "Something wrong happened when setting up gl attrs" << endl;
-    return -1;
-  }
-  SDL_GL_CreateContext(win);
-  return 0;
-}
-
-
-static void draw() {
-  glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-  glClear(GL_COLOR_BUFFER_BIT);
-
-  glBindBuffer(GL_ARRAY_BUFFER, positionBufferObject);
-  glEnableVertexAttribArray(0);
-  glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, 0);
-  glDrawArrays(GL_TRIANGLES, 0, 3);
-
-  glDisableVertexAttribArray(0);
-}
-
 int main() {
+  Game newGame;
+  int ret = 0;
+  ret = newGame.init("Pongl");
+  if (ret) {
+    cerr << "Failed to launch Pongl. Error code: " << ret << endl;
+  }
+
   return 0;
 }
