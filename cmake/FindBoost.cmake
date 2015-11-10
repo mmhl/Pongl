@@ -246,7 +246,7 @@ macro(_Boost_ADJUST_LIB_VARS basename)
             # optimized and debug libraries, or if the CMAKE_BUILD_TYPE has a value
             if (CMAKE_CONFIGURATION_TYPES OR CMAKE_BUILD_TYPE)
                 set(Boost_${basename}_LIBRARY optimized ${Boost_${basename}_LIBRARY_RELEASE} debug ${Boost_${basename}_LIBRARY_DEBUG})
-            else()
+            else ()
                 # if there are no configuration types and CMAKE_BUILD_TYPE has no value
                 # then just use the release libraries
                 set(Boost_${basename}_LIBRARY ${Boost_${basename}_LIBRARY_RELEASE})
@@ -302,16 +302,16 @@ macro(_Boost_CHANGE_DETECT changed_var)
             if (${v})
                 if (_${v}_LAST)
                     string(COMPARE NOTEQUAL "${${v}}" "${_${v}_LAST}" _${v}_CHANGED)
-                else()
+                else ()
                     set(_${v}_CHANGED 1)
                 endif ()
-            elseif(_${v}_LAST)
+            elseif (_${v}_LAST)
                 set(_${v}_CHANGED 1)
             endif ()
             if (_${v}_CHANGED)
                 set(${changed_var} 1)
             endif ()
-        else()
+        else ()
             set(_${v}_CHANGED 0)
         endif ()
     endforeach ()
@@ -331,7 +331,7 @@ macro(_Boost_FIND_LIBRARY var build_type)
             get_filename_component(_dir "${${var}}" PATH)
             set(Boost_LIBRARY_DIR_${build_type} "${_dir}" CACHE PATH "Boost library directory ${build_type}" FORCE)
         endif ()
-    elseif(_Boost_FIND_LIBRARY_HINTS_FOR_COMPONENT)
+    elseif (_Boost_FIND_LIBRARY_HINTS_FOR_COMPONENT)
         # Try component-specific hints but do not save Boost_LIBRARY_DIR_[RELEASE,DEBUG].
         find_library(${var} HINTS ${_Boost_FIND_LIBRARY_HINTS_FOR_COMPONENT} ${ARGN})
     endif ()
@@ -358,7 +358,7 @@ function(_Boost_COMPILER_DUMPVERSION _OUTPUT_VERSION)
     exec_program(${CMAKE_CXX_COMPILER}
             ARGS ${CMAKE_CXX_COMPILER_ARG1} -dumpversion
             OUTPUT_VARIABLE _boost_COMPILER_VERSION
-    )
+            )
     string(REGEX REPLACE "([0-9])\\.([0-9])(\\.[0-9])?" "\\1\\2"
             _boost_COMPILER_VERSION ${_boost_COMPILER_VERSION})
 
@@ -402,7 +402,7 @@ function(_Boost_GUESS_COMPILER_PREFIX _ret)
             OR CMAKE_CXX_COMPILER MATCHES "icpc")
         if (WIN32)
             set(_boost_COMPILER "-iw")
-        else()
+        else ()
             set(_boost_COMPILER "-il")
         endif ()
     elseif (GHSMULTI)
@@ -427,12 +427,12 @@ function(_Boost_GUESS_COMPILER_PREFIX _ret)
         set(_boost_COMPILER "-vc6") # yes, this is correct
     elseif (BORLAND)
         set(_boost_COMPILER "-bcb")
-    elseif(CMAKE_CXX_COMPILER_ID STREQUAL "SunPro")
+    elseif (CMAKE_CXX_COMPILER_ID STREQUAL "SunPro")
         set(_boost_COMPILER "-sw")
     elseif (MINGW)
         if (${Boost_MAJOR_VERSION}.${Boost_MINOR_VERSION} VERSION_LESS 1.34)
             set(_boost_COMPILER "-mgw") # no GCC version encoding prior to 1.34
-        else()
+        else ()
             _Boost_COMPILER_DUMPVERSION(_boost_COMPILER_VERSION)
             set(_boost_COMPILER "-mgw${_boost_COMPILER_VERSION}")
         endif ()
@@ -440,7 +440,7 @@ function(_Boost_GUESS_COMPILER_PREFIX _ret)
         if (CMAKE_COMPILER_IS_GNUCXX)
             if (${Boost_MAJOR_VERSION}.${Boost_MINOR_VERSION} VERSION_LESS 1.34)
                 set(_boost_COMPILER "-gcc") # no GCC version encoding prior to 1.34
-            else()
+            else ()
                 _Boost_COMPILER_DUMPVERSION(_boost_COMPILER_VERSION)
                 # Determine which version of GCC we have.
                 if (APPLE)
@@ -449,22 +449,22 @@ function(_Boost_GUESS_COMPILER_PREFIX _ret)
                             # In Boost 1.36.0 and newer, the mangled compiler name used
                             # on Mac OS X/Darwin is "xgcc".
                             set(_boost_COMPILER "-xgcc${_boost_COMPILER_VERSION}")
-                        else()
+                        else ()
                             # In Boost <= 1.35.0, there is no mangled compiler name for
                             # the Mac OS X/Darwin version of GCC.
                             set(_boost_COMPILER "")
                         endif ()
-                    else()
+                    else ()
                         # We don't know the Boost version, so assume it's
                         # pre-1.36.0.
                         set(_boost_COMPILER "")
                     endif ()
-                else()
+                else ()
                     set(_boost_COMPILER "-gcc${_boost_COMPILER_VERSION}")
                 endif ()
             endif ()
         endif ()
-    else()
+    else ()
         # TODO at least Boost_DEBUG here?
         set(_boost_COMPILER "")
     endif ()
@@ -508,7 +508,7 @@ if (Boost_FIND_VERSION_EXACT)
     set(_boost_TEST_VERSIONS
             "${Boost_FIND_VERSION_MAJOR}.${Boost_FIND_VERSION_MINOR}.${Boost_FIND_VERSION_PATCH}"
             "${Boost_FIND_VERSION_MAJOR}.${Boost_FIND_VERSION_MINOR}")
-else()
+else ()
     # The user has not requested an exact version.  Among known
     # versions, find those that are acceptable to the user request.
     set(_Boost_KNOWN_VERSIONS ${Boost_ADDITIONAL_VERSIONS}
@@ -529,13 +529,13 @@ else()
             if (NOT "${version}" VERSION_LESS "${Boost_FIND_VERSION}")
                 # This version is high enough.
                 list(APPEND _boost_TEST_VERSIONS "${version}")
-            elseif("${version}.99" VERSION_EQUAL "${_Boost_FIND_VERSION_SHORT}.99")
+            elseif ("${version}.99" VERSION_EQUAL "${_Boost_FIND_VERSION_SHORT}.99")
                 # This version is a short-form for the requested version with
                 # the patch level dropped.
                 list(APPEND _boost_TEST_VERSIONS "${version}")
             endif ()
         endforeach ()
-    else()
+    else ()
         # Any version is acceptable.
         set(_boost_TEST_VERSIONS "${_Boost_KNOWN_VERSIONS}")
     endif ()
@@ -592,7 +592,7 @@ foreach (v BOOSTROOT BOOST_ROOT BOOST_INCLUDEDIR BOOST_LIBRARYDIR)
     set(_env $ENV{${v}})
     if (_env)
         file(TO_CMAKE_PATH "${_env}" _ENV_${v})
-    else()
+    else ()
         set(_ENV_${v} "")
     endif ()
 endforeach ()
@@ -607,7 +607,7 @@ endif ()
 set(_Boost_VARS_DIR
         BOOST_ROOT
         Boost_NO_SYSTEM_PATHS
-)
+        )
 
 if (Boost_DEBUG)
     message(STATUS "[ ${CMAKE_CURRENT_LIST_FILE}:${CMAKE_CURRENT_LIST_LINE} ] "
@@ -638,24 +638,24 @@ if (NOT Boost_INCLUDE_DIR)
     set(_boost_INCLUDE_SEARCH_DIRS "")
     if (BOOST_INCLUDEDIR)
         list(APPEND _boost_INCLUDE_SEARCH_DIRS ${BOOST_INCLUDEDIR})
-    elseif(_ENV_BOOST_INCLUDEDIR)
+    elseif (_ENV_BOOST_INCLUDEDIR)
         list(APPEND _boost_INCLUDE_SEARCH_DIRS ${_ENV_BOOST_INCLUDEDIR})
     endif ()
 
     if (BOOST_ROOT)
         list(APPEND _boost_INCLUDE_SEARCH_DIRS ${BOOST_ROOT}/include ${BOOST_ROOT})
-    elseif( _ENV_BOOST_ROOT )
+    elseif (_ENV_BOOST_ROOT)
         list(APPEND _boost_INCLUDE_SEARCH_DIRS ${_ENV_BOOST_ROOT}/include ${_ENV_BOOST_ROOT})
     endif ()
 
     if (Boost_NO_SYSTEM_PATHS)
         list(APPEND _boost_INCLUDE_SEARCH_DIRS NO_CMAKE_SYSTEM_PATH)
-    else()
+    else ()
         list(APPEND _boost_INCLUDE_SEARCH_DIRS PATHS
                 C:/boost/include
                 C:/boost
                 /sw/local/include
-        )
+                )
     endif ()
 
     # Try to find Boost by stepping backwards through the Boost versions
@@ -672,7 +672,7 @@ if (NOT Boost_INCLUDE_DIR)
         if (_boost_VER MATCHES "([0-9]+)\\.([0-9]+)\\.([0-9]+)")
             set(_boost_BOOSTIFIED_VERSION
                     "${CMAKE_MATCH_1}_${CMAKE_MATCH_2}_${CMAKE_MATCH_3}")
-        elseif(_boost_VER MATCHES "([0-9]+)\\.([0-9]+)")
+        elseif (_boost_VER MATCHES "([0-9]+)\\.([0-9]+)")
             set(_boost_BOOSTIFIED_VERSION
                     "${CMAKE_MATCH_1}_${CMAKE_MATCH_2}")
         endif ()
@@ -682,7 +682,7 @@ if (NOT Boost_INCLUDE_DIR)
                 "boost_${_boost_BOOSTIFIED_VERSION}"
                 "boost/boost-${_boost_BOOSTIFIED_VERSION}"
                 "boost/boost_${_boost_BOOSTIFIED_VERSION}"
-        )
+                )
 
     endforeach ()
 
@@ -700,7 +700,7 @@ if (NOT Boost_INCLUDE_DIR)
             NAMES boost/config.hpp
             HINTS ${_boost_INCLUDE_SEARCH_DIRS}
             PATH_SUFFIXES ${_boost_PATH_SUFFIXES}
-    )
+            )
 endif ()
 
 # ------------------------------------------------------------------------
@@ -746,11 +746,11 @@ if (Boost_INCLUDE_DIR)
         if ("${_Boost_VERSION}" VERSION_LESS "${Boost_FIND_VERSION}")
             set(Boost_FOUND 0)
             set(_Boost_VERSION_AGE "old")
-        elseif(Boost_FIND_VERSION_EXACT AND
+        elseif (Boost_FIND_VERSION_EXACT AND
                 NOT "${_Boost_VERSION}" VERSION_EQUAL "${Boost_FIND_VERSION}")
             set(Boost_FOUND 0)
             set(_Boost_VERSION_AGE "new")
-        else()
+        else ()
             set(Boost_FOUND 1)
         endif ()
         if (NOT Boost_FOUND)
@@ -766,11 +766,11 @@ if (Boost_INCLUDE_DIR)
             endif ()
             set(Boost_ERROR_REASON "${Boost_ERROR_REASON}.")
         endif ()
-    else()
+    else ()
         # Caller will accept any Boost version.
         set(Boost_FOUND 1)
     endif ()
-else()
+else ()
     set(Boost_FOUND 0)
     set(Boost_ERROR_REASON
             "${Boost_ERROR_REASON}Unable to find the Boost header files. Please set BOOST_ROOT to the root directory containing Boost or BOOST_INCLUDEDIR to the directory containing Boost's headers.")
@@ -781,8 +781,8 @@ endif ()
 # ------------------------------------------------------------------------
 
 set(Boost_LIB_PREFIX "")
-if ( (GHSMULTI AND Boost_USE_STATIC_LIBS) OR
-(WIN32 AND Boost_USE_STATIC_LIBS AND NOT CYGWIN) )
+if ((GHSMULTI AND Boost_USE_STATIC_LIBS) OR
+(WIN32 AND Boost_USE_STATIC_LIBS AND NOT CYGWIN))
     set(Boost_LIB_PREFIX "lib")
 endif ()
 
@@ -804,7 +804,7 @@ set(_Boost_VARS_NAME
         Boost_USE_STATIC_RUNTIME
         Boost_USE_STLPORT
         Boost_USE_STLPORT_DEPRECATED_NATIVE_IOSTREAMS
-)
+        )
 _Boost_CHANGE_DETECT(_Boost_CHANGE_LIBNAME ${_Boost_VARS_NAME})
 
 # Setting some more suffixes for the library
@@ -814,7 +814,7 @@ if (Boost_COMPILER)
         message(STATUS "[ ${CMAKE_CURRENT_LIST_FILE}:${CMAKE_CURRENT_LIST_LINE} ] "
                 "using user-specified Boost_COMPILER = ${_boost_COMPILER}")
     endif ()
-else()
+else ()
     # Attempt to guess the compiler suffix
     # NOTE: this is not perfect yet, if you experience any issues
     # please report them and use the Boost_COMPILER variable
@@ -898,17 +898,17 @@ foreach (c DEBUG RELEASE)
     # If Boost_LIBRARY_DIR_[RELEASE,DEBUG] is set, prefer its value.
     if (Boost_LIBRARY_DIR_${c})
         set(_boost_LIBRARY_SEARCH_DIRS_${c} ${Boost_LIBRARY_DIR_${c}} NO_DEFAULT_PATH NO_CMAKE_FIND_ROOT_PATH)
-    else()
+    else ()
         set(_boost_LIBRARY_SEARCH_DIRS_${c} "")
         if (BOOST_LIBRARYDIR)
             list(APPEND _boost_LIBRARY_SEARCH_DIRS_${c} ${BOOST_LIBRARYDIR})
-        elseif(_ENV_BOOST_LIBRARYDIR)
+        elseif (_ENV_BOOST_LIBRARYDIR)
             list(APPEND _boost_LIBRARY_SEARCH_DIRS_${c} ${_ENV_BOOST_LIBRARYDIR})
         endif ()
 
         if (BOOST_ROOT)
             list(APPEND _boost_LIBRARY_SEARCH_DIRS_${c} ${BOOST_ROOT}/lib ${BOOST_ROOT}/stage/lib)
-        elseif(_ENV_BOOST_ROOT)
+        elseif (_ENV_BOOST_ROOT)
             list(APPEND _boost_LIBRARY_SEARCH_DIRS_${c} ${_ENV_BOOST_ROOT}/lib ${_ENV_BOOST_ROOT}/stage/lib)
         endif ()
 
@@ -916,15 +916,15 @@ foreach (c DEBUG RELEASE)
                 ${Boost_INCLUDE_DIR}/lib
                 ${Boost_INCLUDE_DIR}/../lib
                 ${Boost_INCLUDE_DIR}/stage/lib
-        )
+                )
         if (Boost_NO_SYSTEM_PATHS)
             list(APPEND _boost_LIBRARY_SEARCH_DIRS_${c} NO_CMAKE_SYSTEM_PATH)
-        else()
+        else ()
             list(APPEND _boost_LIBRARY_SEARCH_DIRS_${c} PATHS
                     C:/boost/lib
                     C:/boost
                     /sw/local/lib
-            )
+                    )
         endif ()
     endif ()
 endforeach ()
@@ -940,7 +940,7 @@ if (Boost_USE_STATIC_LIBS)
     set(_boost_ORIG_CMAKE_FIND_LIBRARY_SUFFIXES ${CMAKE_FIND_LIBRARY_SUFFIXES})
     if (WIN32)
         set(CMAKE_FIND_LIBRARY_SUFFIXES .lib .a ${CMAKE_FIND_LIBRARY_SUFFIXES})
-    else()
+    else ()
         set(CMAKE_FIND_LIBRARY_SUFFIXES .a)
     endif ()
 endif ()
@@ -1060,7 +1060,7 @@ foreach (COMPONENT ${Boost_FIND_COMPONENTS})
             HINTS ${_boost_LIBRARY_SEARCH_DIRS_tmp}
             NAMES_PER_DIR
             DOC "${_boost_docstring_release}"
-    )
+            )
 
     #
     # Find DEBUG libraries
@@ -1102,7 +1102,7 @@ foreach (COMPONENT ${Boost_FIND_COMPONENTS})
             HINTS ${_boost_LIBRARY_SEARCH_DIRS_tmp}
             NAMES_PER_DIR
             DOC "${_boost_docstring_debug}"
-    )
+            )
 
     if (Boost_REALPATH)
         _Boost_SWAP_WITH_REALPATH(Boost_${UPPERCOMPONENT}_LIBRARY_RELEASE "${_boost_docstring_release}")
@@ -1200,10 +1200,10 @@ if (Boost_FOUND)
 
         if (EXISTS "${_boost_LIB_DIR}/lib")
             set(_boost_LIB_DIR ${_boost_LIB_DIR}/lib)
-        else()
+        else ()
             if (EXISTS "${_boost_LIB_DIR}/stage/lib")
                 set(_boost_LIB_DIR ${_boost_LIB_DIR}/stage/lib)
-            else()
+            else ()
                 set(_boost_LIB_DIR "")
             endif ()
         endif ()
@@ -1213,7 +1213,7 @@ if (Boost_FOUND)
         endif ()
 
     endif ()
-else()
+else ()
     # Boost headers were not found so no components were found.
     foreach (COMPONENT ${Boost_FIND_COMPONENTS})
         string(TOUPPER ${COMPONENT} UPPERCOMPONENT)
@@ -1242,10 +1242,10 @@ if (Boost_FOUND)
             list(APPEND Boost_LIBRARIES ${Boost_${UPPERCOMPONENT}_LIBRARY})
         endif ()
     endforeach ()
-else()
+else ()
     if (Boost_FIND_REQUIRED)
         message(SEND_ERROR "Unable to find the requested Boost libraries.\n${Boost_ERROR_REASON}")
-    else()
+    else ()
         if (NOT Boost_FIND_QUIETLY)
             # we opt not to automatically output Boost_ERROR_REASON here as
             # it could be quite lengthy and somewhat imposing in its requests
@@ -1253,7 +1253,7 @@ else()
             # up to the end-user.
             if (Boost_DEBUG OR Boost_DETAILED_FAILURE_MSG)
                 message(STATUS "Could NOT find Boost\n${Boost_ERROR_REASON}")
-            else()
+            else ()
                 message(STATUS "Could NOT find Boost")
             endif ()
         endif ()
@@ -1268,7 +1268,7 @@ foreach (v BOOSTROOT BOOST_ROOT ${_Boost_VARS_INC} ${_Boost_VARS_LIB})
         if ("x${_type}" STREQUAL "xUNINITIALIZED")
             if ("x${v}" STREQUAL "xBoost_ADDITIONAL_VERSIONS")
                 set_property(CACHE ${v} PROPERTY TYPE STRING)
-            else()
+            else ()
                 set_property(CACHE ${v} PROPERTY TYPE PATH)
             endif ()
         endif ()
@@ -1280,10 +1280,10 @@ endforeach ()
 foreach (v
         ${_Boost_VARS_INC} ${_Boost_VARS_LIB}
         ${_Boost_VARS_DIR} ${_Boost_VARS_NAME}
-)
+        )
     if (DEFINED ${v})
         set(_${v}_LAST "${${v}}" CACHE INTERNAL "Last used ${v} value.")
-    else()
+    else ()
         unset(_${v}_LAST CACHE)
     endif ()
 endforeach ()

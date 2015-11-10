@@ -14,7 +14,7 @@ include_directories(${OpenGL_INCLUDE_DIRS})
 include_directories(${GLEW_INCLUDE_DIR})
 include_directories(${Boost_INCLUDE_DIR})
 
-set(SOURCE_FILES main.cpp)
+set(SOURCE_FILES main.cpp Game.cpp Game.h Video.h)
 add_executable(Pongl ${SOURCE_FILES})
 
 
