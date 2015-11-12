@@ -20,6 +20,7 @@ int Game::init(const std::string &title) {
   }
 
   mSDLRednerer = SDL_CreateRenderer(mSDLWindow, -1, SDL_RENDERER_ACCELERATED);
+  SDL_SetRenderDrawColor(mSDLRednerer, 255, 255, 255, 255);
   SDL_RenderClear(mSDLRednerer);
   if (mSDLRednerer == nullptr) {
 	return -2;
@@ -38,6 +39,7 @@ int Game::init(const std::string &title) {
 	return -6;
   }
 
+  mRunning = true;
   return 0;
 }
 
@@ -48,11 +50,29 @@ void Game::cleanup() {
 }
 
 int Game::handleEvents() {
+  SDL_Event event;
+  if (SDL_PollEvent(&event)) {
+    switch (event.type) {
+      case SDL_QUIT:
+        mRunning = false;
+        break;
+    }
+  }
   return 0;
 }
 
 int Game::render() {
+  SDL_RenderClear(mSDLRednerer);
+  // Things to draw
+  SDL_RenderPresent(mSDLRednerer);
   return 0;
+}
+
+void Game::loop() {
+  while (mRunning) {
+    handleEvents();
+    render();
+  }
 }
 
 int Game::setupGL() {
@@ -70,7 +90,6 @@ int Game::setupGL() {
   }
   return 0;
 }
-
 int Game::setupGLEW() {
   glewExperimental = GL_TRUE;
   GLenum res = glewInit();

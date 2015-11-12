@@ -15,10 +15,12 @@ class Game {
   void cleanup();
   int handleEvents();
   int render();
+  void loop();
 
  private:
   int setupGL();
   int setupGLEW();
+  bool mRunning;
   SDL_Window *mSDLWindow;
   SDL_Renderer *mSDLRednerer;
   SDL_GLContext mGLContext;

@@ -5,6 +5,8 @@
       <sourceFolder url="file://$MODULE_DIR$/CMakeLists.txt" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Game.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Game.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Shader.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Shader.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Video.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/cmake/FindBoost.cmake" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/cmake/FindGLEW.cmake" isTestSource="false" />

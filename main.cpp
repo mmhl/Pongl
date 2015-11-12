@@ -64,6 +64,7 @@ int main() {
   if (ret) {
     cerr << "Failed to launch Pongl. Error code: " << ret << endl;
   }
-
+  newGame.loop();
+  newGame.cleanup();
   return 0;
 }
